@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useCallback } from 'react'
 import { siteConfig } from '@/config/siteConfig'
 import { Menu, X } from 'lucide-react'
+import { ResumeButton } from '@/components/resume-button'
 
 export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -112,6 +113,10 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
+            <div className="hidden lg:block">
+              <ResumeButton label="Resume" size="sm" showStatus={false} />
+            </div>
+
             {/* CTA Button (desktop) */}
             <motion.a
               href="#contact"
@@ -201,6 +206,15 @@ export default function Navbar() {
                 ))}
               </nav>
 
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="mt-8"
+              >
+                <ResumeButton label="Download Resume" size="md" fullWidth />
+              </motion.div>
+
               {/* Mobile CTA */}
               <motion.a
                 href="#contact"
@@ -208,7 +222,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="mt-8 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-center font-semibold"
+                className="mt-3 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-center font-semibold"
               >
                 Let&apos;s Talk
               </motion.a>

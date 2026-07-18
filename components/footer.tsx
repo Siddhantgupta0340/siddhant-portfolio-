@@ -1,9 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Code2, Share2, Mail, ArrowUp, Heart } from 'lucide-react'
+import { ArrowUp, Code2, FileText, Heart, Mail, Phone, Share2 } from 'lucide-react'
 import { siteConfig } from '@/config/siteConfig'
 import { useCallback, useEffect, useState } from 'react'
+import { RESUME_FILE_NAME, RESUME_URL } from '@/lib/resume'
 
 export function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false)
@@ -26,21 +27,10 @@ export function Footer() {
   }, [])
 
   const socialLinks = [
-    {
-      icon: Code2,
-      label: 'GitHub',
-      href: siteConfig.social.github,
-    },
-    {
-      icon: Share2,
-      label: 'LinkedIn',
-      href: siteConfig.social.linkedin,
-    },
-    {
-      icon: Mail,
-      label: 'Email',
-      href: `mailto:${siteConfig.email}`,
-    },
+    { icon: Code2, label: 'GitHub', href: siteConfig.social.github },
+    { icon: Share2, label: 'LinkedIn', href: siteConfig.social.linkedin },
+    { icon: Mail, label: 'Email', href: `mailto:${siteConfig.email}` },
+    { icon: FileText, label: 'Resume', href: RESUME_URL, download: RESUME_FILE_NAME },
   ]
 
   const currentYear = new Date().getFullYear()
@@ -49,12 +39,10 @@ export function Footer() {
   return (
     <>
       <footer className="relative border-t border-white/5 bg-background/80 backdrop-blur-xl">
-        {/* Gradient line at top */}
         <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-            {/* Brand */}
             <div>
               <motion.h3
                 className="text-2xl font-bold gradient-text mb-3 font-heading"
@@ -65,12 +53,9 @@ export function Footer() {
               <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
                 {siteConfig.role}
               </p>
-              <p className="text-muted-foreground/60 text-xs">
-                📍 {siteConfig.location}
-              </p>
+              <p className="text-muted-foreground/60 text-xs">{siteConfig.location}</p>
             </div>
 
-            {/* Quick Links */}
             <div>
               <h4 className="font-semibold text-foreground mb-4 font-heading">Quick Links</h4>
               <nav className="grid grid-cols-2 gap-2">
@@ -86,7 +71,6 @@ export function Footer() {
               </nav>
             </div>
 
-            {/* Contact */}
             <div>
               <h4 className="font-semibold text-foreground mb-4 font-heading">Get in Touch</h4>
               <div className="space-y-3">
@@ -101,22 +85,30 @@ export function Footer() {
                   href={`tel:${siteConfig.phone.replace(/[^+\d]/g, '')}`}
                   className="flex items-center gap-2 text-muted-foreground hover:text-secondary transition-colors text-sm"
                 >
-                  📞 {siteConfig.phone}
+                  <Phone className="w-4 h-4" />
+                  {siteConfig.phone}
+                </a>
+                <a
+                  href={RESUME_URL}
+                  download={RESUME_FILE_NAME}
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm"
+                >
+                  <FileText className="w-4 h-4" />
+                  Download Resume
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Bottom bar */}
           <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            {/* Social Links */}
             <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  target={social.label !== 'Email' ? '_blank' : undefined}
-                  rel={social.label !== 'Email' ? 'noopener noreferrer' : undefined}
+                  target={social.label !== 'Email' && social.label !== 'Resume' ? '_blank' : undefined}
+                  rel={social.label !== 'Email' && social.label !== 'Resume' ? 'noopener noreferrer' : undefined}
+                  download={social.download}
                   className="p-2.5 rounded-xl glass-effect hover:bg-white/10 transition-all duration-300 text-muted-foreground hover:text-primary"
                   aria-label={social.label}
                   whileHover={{ y: -3, scale: 1.1 }}
@@ -127,7 +119,6 @@ export function Footer() {
               ))}
             </div>
 
-            {/* Copyright */}
             <p className="text-xs text-muted-foreground/60 flex items-center gap-1">
               © {currentYear} {siteConfig.name}. Built with
               <Heart className="w-3 h-3 text-accent inline" />
@@ -137,7 +128,6 @@ export function Footer() {
         </div>
       </footer>
 
-      {/* Back to Top Button */}
       <motion.button
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{
@@ -151,11 +141,7 @@ export function Footer() {
         aria-label="Back to top"
         suppressHydrationWarning
       >
-        {/* Circular progress ring */}
-        <svg
-          className="absolute inset-0 -rotate-90"
-          viewBox="0 0 44 44"
-        >
+        <svg className="absolute inset-0 -rotate-90" viewBox="0 0 44 44">
           <circle
             cx="22"
             cy="22"

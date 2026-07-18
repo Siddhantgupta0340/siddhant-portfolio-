@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { RESUME_FILE_NAME, RESUME_URL } from '@/lib/resume'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -60,6 +61,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <link
+          rel="preload"
+          href={RESUME_URL}
+          as="fetch"
+          type="application/pdf"
+          crossOrigin="anonymous"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -84,6 +92,12 @@ export default function RootLayout({
                 'PostgreSQL',
                 'REST APIs',
               ],
+              subjectOf: {
+                '@type': 'DigitalDocument',
+                name: RESUME_FILE_NAME,
+                encodingFormat: 'application/pdf',
+                url: RESUME_URL,
+              },
             }),
           }}
         />

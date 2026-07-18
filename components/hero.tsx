@@ -9,6 +9,7 @@ import { TypeAnimation } from 'react-type-animation'
 import { MagneticButton } from '@/components/animations/MagneticButton'
 import { FloatingShapes } from '@/components/animations/FloatingShapes'
 import { AnimatedCounter } from '@/components/animations/AnimatedCounter'
+import { ResumeButton } from '@/components/resume-button'
 import { siteConfig } from '@/config/siteConfig'
 
 const smoothEase = [0.23, 1, 0.32, 1] as const
@@ -176,6 +177,7 @@ export default function Hero() {
           variants={itemVariants}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
         >
+          <ResumeButton label="Download Resume" size="lg" pulse />
           <MagneticButton variant="primary" size="lg" onClick={scrollToProjects}>
             View Projects
           </MagneticButton>
