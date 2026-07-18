@@ -6,19 +6,15 @@ import About from '@/components/about'
 import Skills from '@/components/skills'
 import Experience from '@/components/experience'
 import Projects from '@/components/projects'
+import Articles from '@/components/articles'
+import Testimonials from '@/components/testimonials'
 import Education from '@/components/education'
 import Contact from '@/components/contact'
 import { CustomCursor } from '@/components/custom-cursor'
 import { LoadingScreen } from '@/components/loading-screen'
 import { Footer } from '@/components/footer'
-import { useEffect } from 'react'
 
 export default function Page() {
-  useEffect(() => {
-    // Set document root class for dark mode
-    document.documentElement.classList.add('dark')
-  }, [])
-
   return (
     <>
       <LoadingScreen />
@@ -51,6 +47,14 @@ export default function Page() {
           <Projects />
         </section>
 
+        <section id="articles">
+          <Articles />
+        </section>
+
+        <section id="testimonials">
+          <Testimonials />
+        </section>
+
         {/* Education Section */}
         <section id="education">
           <Education />
@@ -63,9 +67,6 @@ export default function Page() {
 
         {/* Footer */}
         <Footer />
-
-        {/* Back to Top Button */}
-        <div className="fixed bottom-8 right-8 z-30" />
       </main>
     </>
   )

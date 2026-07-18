@@ -43,6 +43,7 @@ export function PremiumButton({
     <button
       className={finalClass}
       disabled={disabled || isLoading}
+      suppressHydrationWarning
       {...props}
     >
       {/* Shimmer effect */}
