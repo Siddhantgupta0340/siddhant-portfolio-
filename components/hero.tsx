@@ -177,8 +177,8 @@ export default function Hero() {
           variants={itemVariants}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
         >
-          <ResumeButton label="Download Resume" size="lg" pulse />
-          <MagneticButton variant="primary" size="lg" onClick={scrollToProjects}>
+          <ResumeButton label="Download Resume" size="lg" variant="outline" pulse />
+          <MagneticButton variant="outline" size="lg" onClick={scrollToProjects}>
             View Projects
           </MagneticButton>
           <MagneticButton variant="outline" size="lg" onClick={scrollToContact}>

@@ -23,11 +23,11 @@ const sizeClasses = {
 
 const variantClasses = {
   primary:
-    'bg-gradient-to-r from-primary via-secondary to-accent text-white shadow-lg shadow-primary/20 hover:shadow-[0_0_34px_rgba(108,99,255,0.45)]',
+    'border border-secondary/30 bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20 hover:shadow-[0_0_34px_rgba(0,212,255,0.34)]',
   outline:
-    'border border-primary/40 bg-primary/5 text-primary hover:border-secondary/60 hover:bg-secondary/10 hover:text-secondary',
+    'border border-secondary/35 bg-secondary/10 text-secondary hover:border-secondary/70 hover:bg-secondary/15 hover:text-white hover:shadow-[0_0_28px_rgba(0,212,255,0.24)]',
   ghost:
-    'border border-white/10 bg-white/5 text-muted-foreground hover:border-primary/40 hover:text-primary',
+    'border border-white/10 bg-white/5 text-muted-foreground hover:border-secondary/40 hover:text-secondary',
 }
 
 export function ResumeButton({

@@ -70,19 +70,20 @@ export function MagneticButton({
 
   const variantClasses = {
     primary:
-      'bg-gradient-to-r from-primary to-secondary text-white hover:shadow-xl hover:shadow-primary/30',
+      'border border-secondary/30 bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20 hover:shadow-[0_0_34px_rgba(0,212,255,0.34)]',
     outline:
-      'border-2 border-primary/50 text-primary hover:bg-primary/10 hover:border-secondary/50',
-    ghost: 'text-primary hover:bg-primary/5',
+      'border border-secondary/35 bg-secondary/10 text-secondary hover:border-secondary/70 hover:bg-secondary/15 hover:text-white hover:shadow-[0_0_28px_rgba(0,212,255,0.24)]',
+    ghost:
+      'border border-white/10 bg-white/5 text-muted-foreground hover:border-secondary/40 hover:text-secondary',
   }
 
   const sizeClasses = {
-    sm: 'px-5 py-2 text-sm',
-    md: 'px-8 py-3 text-base',
-    lg: 'px-10 py-4 text-lg',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-5 py-2.5 text-sm',
+    lg: 'px-8 py-4 text-base sm:text-lg',
   }
 
-  const btnClasses = `relative overflow-hidden rounded-xl font-semibold transition-all duration-300 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`
+  const btnClasses = `relative inline-flex items-center justify-center overflow-hidden rounded-xl font-semibold transition-all duration-300 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`
 
   const content = (
     <motion.div
