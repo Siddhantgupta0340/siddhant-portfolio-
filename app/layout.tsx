@@ -1,39 +1,37 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
 import { RESUME_FILE_NAME, RESUME_URL } from '@/lib/resume'
+import { siteConfig } from '@/config/siteConfig'
 import './globals.css'
 
+const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans', display: 'swap' })
+const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono', display: 'swap' })
+
+const title = 'Siddhant Gupta · Junior Software Engineer'
+const description =
+  'Junior Software Engineer in Indore building production, ERP-integrated web apps with React, TypeScript, Node.js, FastAPI and PostgreSQL.'
+
 export const metadata: Metadata = {
-  title: 'Siddhant Gupta - Full Stack Developer & SDE',
-  description:
-    'Portfolio of Siddhant Gupta - Software Development Engineer specializing in PERN/MERN stacks, REST APIs, authentication systems, and enterprise-grade applications.',
+  metadataBase: new URL('https://developer-portfolio-two-liart.vercel.app'),
+  title,
+  description,
   keywords: [
     'Siddhant Gupta',
+    'Junior Software Engineer',
     'Full Stack Developer',
-    'Software Engineer',
-    'PERN Stack',
-    'MERN Stack',
     'React Developer',
-    'Node.js Developer',
     'Next.js',
-    'Portfolio',
+    'TypeScript',
+    'Node.js',
+    'FastAPI',
+    'PostgreSQL',
+    'Indore',
   ],
   authors: [{ name: 'Siddhant Gupta' }],
   creator: 'Siddhant Gupta',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    title: 'Siddhant Gupta - Full Stack Developer & SDE',
-    description:
-      'Software Development Engineer specializing in PERN/MERN stacks, REST APIs, and enterprise applications.',
-    siteName: 'Siddhant Gupta Portfolio',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Siddhant Gupta - Full Stack Developer',
-    description:
-      'Software Development Engineer specializing in PERN/MERN stacks and enterprise applications.',
-  },
+  openGraph: { type: 'website', locale: 'en_IN', title, description, siteName: 'Siddhant Gupta' },
+  twitter: { card: 'summary_large_image', title, description },
   icons: {
     icon: [
       { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
@@ -42,56 +40,30 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-icon.png',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 }
 
 export const viewport: Viewport = {
   colorScheme: 'dark',
-  themeColor: '#0A0A0A',
+  themeColor: '#07090c',
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable}`}>
       <head>
-        <link
-          rel="preload"
-          href={RESUME_URL}
-          as="fetch"
-          type="application/pdf"
-          crossOrigin="anonymous"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Person',
-              name: 'Siddhant Gupta',
-              jobTitle: 'Software Development Engineer',
-              worksFor: {
-                '@type': 'Organization',
-                name: 'ITSOFT LAB',
-              },
-              sameAs: [
-                'https://github.com/Siddhantgupta0340',
-                'https://linkedin.com/in/siddhant-gupta',
-              ],
-              knowsAbout: [
-                'Full Stack Development',
-                'React.js',
-                'Next.js',
-                'Node.js',
-                'PostgreSQL',
-                'REST APIs',
-              ],
+              name: siteConfig.name,
+              jobTitle: siteConfig.role,
+              worksFor: { '@type': 'Organization', name: 'Bhaskar Savitt Industries Pvt. Ltd.' },
+              address: { '@type': 'PostalAddress', addressLocality: 'Indore', addressCountry: 'IN' },
+              sameAs: [siteConfig.social.github, siteConfig.social.linkedin, siteConfig.social.leetcode],
+              knowsAbout: ['React', 'Next.js', 'TypeScript', 'Node.js', 'FastAPI', 'PostgreSQL', 'Redis', 'AWS'],
               subjectOf: {
                 '@type': 'DigitalDocument',
                 name: RESUME_FILE_NAME,
@@ -102,7 +74,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased">
+      <body className="noise">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

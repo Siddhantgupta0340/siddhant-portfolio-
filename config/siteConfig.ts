@@ -1,223 +1,151 @@
+// Single source of truth for the portfolio. All content mirrors the resume
+// (Siddhant_Gupta_Junior_Software_Engineer_Resume.pdf). Keep it truthful.
+
 export const siteConfig = {
   name: 'Siddhant Gupta',
+  firstName: 'Siddhant',
+  lastName: 'Gupta',
   initials: 'SG',
-  role: 'Full Stack Developer & Software Engineer',
-  tagline: 'Building production-grade applications with PERN & MERN stacks',
-  description:
-    'Software Development Engineer with hands-on experience designing, developing, and deploying production-ready full-stack web applications using the PERN and MERN stacks. Experienced in secure REST APIs, authentication systems, Role-Based Access Control, background job processing, and scalable database-driven applications.',
-  location: 'Indore, Madhya Pradesh',
+  role: 'Junior Software Engineer',
+  roles: ['Full Stack Engineer', 'React + TypeScript Developer', 'FastAPI & Node.js Builder', 'API & Database Engineer'],
+  headline: 'I build production, ERP-integrated web apps that turn messy data into live dashboards.',
+  summary:
+    'Junior Software Engineer building production, ERP-integrated web applications with React, TypeScript, Node.js, Python (FastAPI) and PostgreSQL. Skilled in REST API design, JWT authentication and role-based access control (RBAC), SAP data integration, Redis caching and SQL query optimization. I deliver clean, scalable, well-tested features in Agile teams.',
+  location: 'Indore, Madhya Pradesh, India',
   email: 'siddhantgupta0304@gmail.com',
   phone: '+91-9589530325',
+  available: 'Open to Software Engineer roles · Anywhere in India',
 
   social: {
     github: 'https://github.com/Siddhantgupta0340',
-    linkedin: 'https://linkedin.com/in/siddhant-gupta',
+    linkedin: 'https://www.linkedin.com/in/siddhant-gupta-b7730930a',
+    leetcode: 'https://leetcode.com/u/Siddhant_Gupta0304',
   },
-
-  stats: [
-    { value: 2, suffix: '+', label: 'Enterprise Projects' },
-    { value: 10, suffix: 'K+', label: 'Campaigns Processed' },
-    { value: 50, suffix: '+', label: 'Vendors Managed' },
-    { value: 1, suffix: '+', label: 'Year Experience' },
-  ],
 
   navItems: [
     { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
     { name: 'Experience', href: '#experience' },
     { name: 'Projects', href: '#projects' },
-    { name: 'Articles', href: '#articles' },
+    { name: 'Skills', href: '#skills' },
     { name: 'Education', href: '#education' },
     { name: 'Contact', href: '#contact' },
   ],
 
-  typingSequences: [
-    'Full Stack Developer',
-    1500,
-    'Software Engineer',
-    1500,
-    'PERN Stack Developer',
-    1500,
-    'API Architect',
-    1500,
-    'React Developer',
-    1500,
-  ] as (string | number)[],
+  stats: [
+    { value: 60, suffix: '%', label: 'Faster APIs with Redis + BullMQ' },
+    { value: 500, suffix: '+', label: 'Users served on PERN apps' },
+    { value: 45, suffix: '%', label: 'Prisma query time cut' },
+    { value: 2, suffix: ' hrs', label: 'Manual reporting removed daily' },
+  ],
 
-  skills: [
+  experience: [
     {
-      name: 'Languages',
-      icon: 'Code',
-      skills: [
-        { name: 'C++', level: 75 },
-        { name: 'JavaScript (ES6+)', level: 90 },
-        { name: 'TypeScript', level: 80 },
-        { name: 'Python (Basics)', level: 50 },
-        { name: 'SQL', level: 85 },
+      role: 'Junior Software Engineer',
+      company: 'Bhaskar Savitt Industries Pvt. Ltd.',
+      location: 'Indore, MP',
+      duration: 'Jul 2026 – Present',
+      type: 'Full-time',
+      current: true,
+      highlights: [
+        "Develop Wishvam, the company's unified operations platform that replaces manual SAP-to-Excel reporting with live dashboards for sales, stock, dispatch and production teams.",
+        'Build FastAPI REST APIs and optimized PostgreSQL queries over a medallion data model fed by SAP OData ingestion.',
+        'Create responsive React + TypeScript screens with data grids, server-side search and filters, KPI charts and Excel export.',
+        'Implement role-based access control with team-level data scoping and Redis caching for secure, fast reporting.',
+        'Ship features via Git pull requests, database migrations, automated tests and Docker deployments on AWS.',
       ],
+      tech: ['React', 'TypeScript', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'AWS'],
     },
     {
-      name: 'Frontend',
-      icon: 'UI',
-      skills: [
-        { name: 'React.js', level: 90 },
-        { name: 'Next.js', level: 85 },
-        { name: 'HTML5', level: 95 },
-        { name: 'CSS3', level: 90 },
-        { name: 'Tailwind CSS', level: 90 },
-        { name: 'Bootstrap', level: 75 },
+      role: 'SDE Intern',
+      company: 'ITSOFT LAB',
+      location: 'Indore, MP',
+      duration: 'Jan 2026 – Jun 2026',
+      type: 'Internship',
+      current: false,
+      highlights: [
+        'Developed features for a Vendor Management System and Restaurant POS platform on the PERN stack, serving 500+ users.',
+        'Built secure REST APIs with Node.js, Express.js, PostgreSQL and Prisma ORM, using JWT authentication and multi-role RBAC.',
+        'Optimized SQL queries and added Redis caching and BullMQ background jobs, improving API performance by 60%.',
+        'Delivered responsive React.js and Tailwind CSS interfaces in 2-week Agile sprints; recognized as Outstanding Performer.',
       ],
-    },
-    {
-      name: 'Backend',
-      icon: 'API',
-      skills: [
-        { name: 'Node.js', level: 90 },
-        { name: 'Express.js', level: 88 },
-        { name: 'REST APIs', level: 92 },
-        { name: 'Authentication/JWT', level: 85 },
-        { name: 'RBAC', level: 80 },
-      ],
-    },
-    {
-      name: 'Database',
-      icon: 'DB',
-      skills: [
-        { name: 'PostgreSQL', level: 88 },
-        { name: 'MongoDB', level: 75 },
-        { name: 'Prisma ORM', level: 85 },
-      ],
-    },
-    {
-      name: 'Tools & Platforms',
-      icon: 'Ops',
-      skills: [
-        { name: 'Git & GitHub', level: 88 },
-        { name: 'Postman', level: 85 },
-        { name: 'Vercel', level: 80 },
-        { name: 'Redis', level: 70 },
-        { name: 'BullMQ', level: 72 },
-        { name: 'Render', level: 75 },
-      ],
+      tech: ['React', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Redis', 'BullMQ'],
     },
   ],
 
   projects: [
     {
-      title: 'Vendor Management System (VMS)',
+      title: 'Wishvam',
+      subtitle: 'Unified Operations Platform',
+      badge: 'Enterprise · Live',
       description:
-        'Enterprise-level procurement system automating vendor onboarding, purchase orders, invoices, and payment workflows.',
-      features: [
-        'Secure JWT authentication with RBAC',
-        'Multi-level approval workflows',
-        'Three-way invoice matching',
-        'Responsive dashboards with real-time data',
+        'SAP-integrated platform giving a textile manufacturer real-time visibility into sales, stock, dispatch, purchase orders, costing and production.',
+      points: [
+        'Removed about 2 hours of daily manual Excel reporting',
+        'Team-wise sales reports, stock ageing analysis, global search sheets with export',
+        'Task manager with email notifications',
       ],
-      tech: ['Next.js', 'Node.js', 'Express.js', 'PostgreSQL', 'Prisma ORM', 'JWT'],
-      type: 'Live Client Project' as const,
-      status: 'live' as const,
-      impact: 'Implemented for enterprise clients with 50+ vendors',
-      color: '#6C63FF',
+      metric: { value: '~2 hrs', label: 'saved every day' },
+      tech: ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS', 'Recharts', 'FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Redis', 'Dagster', 'SAP OData', 'Docker', 'AWS ECS', 'GitHub Actions'],
+      link: null as string | null,
+      featured: true,
     },
     {
-      title: 'AutoMarket Platform',
+      title: 'Restaurant POS',
+      subtitle: 'Multi-restaurant SaaS',
+      badge: 'Live',
       description:
-        'Marketing automation platform managing Email, WhatsApp, and SMS campaigns from a unified dashboard.',
-      features: [
-        'Bulk customer import and segmentation',
-        'Automated campaign scheduling',
-        'Redis and BullMQ background processing',
-        'High-performance campaign execution',
+        'Multi-restaurant SaaS POS covering onboarding, tables, orders, kitchen operations, billing, subscriptions and licenses.',
+      points: [
+        'Organization-level RBAC for five staff roles',
+        'Real-time waiter-to-kitchen order flow',
       ],
-      tech: ['React.js', 'Node.js', 'Express.js', 'PostgreSQL', 'Redis', 'BullMQ'],
-      type: 'Live Client Project' as const,
-      status: 'live' as const,
-      impact: 'Processed 10K+ marketing campaigns monthly',
-      color: '#00D4FF',
-    },
-  ],
-
-  articles: [
-    {
-      title: 'Designing RBAC for Enterprise Dashboards',
-      category: 'Backend',
-      readTime: '6 min read',
-      summary:
-        'A practical breakdown of roles, permissions, middleware, and database checks for secure application workflows.',
+      metric: { value: '5', label: 'staff roles with RBAC' },
+      tech: ['Next.js', 'TypeScript', 'Hono.js', 'Drizzle ORM', 'PostgreSQL'],
+      link: 'https://positsoftlab.vercel.app' as string | null,
+      featured: false,
     },
     {
-      title: 'Queue-Based Campaign Processing with BullMQ',
-      category: 'Systems',
-      readTime: '5 min read',
-      summary:
-        'How background workers, Redis queues, and retry logic keep marketing automations responsive at scale.',
-    },
-    {
-      title: 'Building Prisma Models for Procurement Systems',
-      category: 'Database',
-      readTime: '7 min read',
-      summary:
-        'Patterns for invoices, vendors, purchase orders, and approvals in relational database-backed apps.',
-    },
-  ],
-
-  testimonials: [
-    {
-      quote:
-        'Siddhant turns complex workflows into clean, usable dashboards and dependable backend systems.',
-      name: 'Project Mentor',
-      title: 'Senior Developer, ITSOFT LAB',
-    },
-    {
-      quote:
-        'He learns quickly, communicates clearly, and brings ownership to production-facing features.',
-      name: 'Engineering Lead',
-      title: 'Full-stack Team',
-    },
-  ],
-
-  experience: [
-    {
-      role: 'Software Development Engineer (Full Stack)',
-      company: 'ITSOFT LAB',
-      location: 'Indore, Madhya Pradesh',
-      duration: 'May 2026 - Present',
-      type: 'Full-time',
-      highlights: [
-        'Promoted from Software Developer Intern to SDE after a successful 3-month internship based on performance and project impact.',
-        'Build and maintain production-ready enterprise applications using the PERN stack.',
-        'Collaborate with senior developers and cross-functional teams in Agile development environments.',
-        'Develop secure REST APIs and implement JWT authentication with RBAC.',
-        'Design responsive dashboards and optimize database operations using Prisma ORM and PostgreSQL.',
+      title: 'Vendor Management System',
+      subtitle: 'Procurement automation',
+      badge: 'Enterprise · Live',
+      description:
+        'Procurement automation platform with vendor onboarding, purchase orders, invoices and 3-way matching workflows.',
+      points: [
+        'RBAC for 5+ roles',
+        'Optimized Prisma queries, cutting execution time by 45%',
       ],
+      metric: { value: '45%', label: 'faster queries' },
+      tech: ['React.js', 'Node.js', 'Express.js', 'PostgreSQL', 'Prisma ORM', 'Redis'],
+      link: null as string | null,
+      featured: false,
     },
   ],
+
+  skills: [
+    { name: 'Languages', items: ['JavaScript (ES6+)', 'TypeScript', 'Python', 'SQL'] },
+    { name: 'Frontend', items: ['React.js', 'Next.js', 'Vite', 'Tailwind CSS', 'Recharts', 'HTML5', 'CSS3', 'Bootstrap'] },
+    { name: 'Backend', items: ['Node.js', 'Express.js', 'FastAPI', 'Hono.js', 'REST APIs', 'JWT', 'RBAC', 'BullMQ'] },
+    { name: 'Databases', items: ['PostgreSQL', 'MongoDB', 'Redis', 'SQLAlchemy', 'Prisma ORM', 'Drizzle ORM', 'Mongoose', 'Alembic'] },
+    { name: 'Cloud & DevOps', items: ['AWS (ECS Fargate, RDS, S3)', 'Docker', 'GitHub Actions', 'Git', 'GitHub', 'Vercel', 'Render', 'Postman'] },
+    { name: 'Concepts', items: ['Data Structures & Algorithms', 'API Design', 'SAP OData Integration', 'Agile / Scrum'] },
+  ],
+
+  marquee: ['React', 'Next.js', 'TypeScript', 'Node.js', 'FastAPI', 'Python', 'PostgreSQL', 'Redis', 'Docker', 'AWS', 'Prisma', 'Drizzle', 'Hono', 'Tailwind', 'GitHub Actions', 'BullMQ', 'SQLAlchemy', 'MongoDB'],
 
   education: [
     {
-      degree: 'Bachelor of Technology (B.Tech)',
-      field: 'Computer Science & Engineering',
+      degree: 'B.Tech, Computer Science & Engineering',
       institution: 'IPS Academy, Indore',
-      period: '2022 - 2026',
-      score: 'CGPA: 7.0 / 10',
-      type: 'cgpa' as const,
+      period: '2022 – 2026',
+      score: 'CGPA 7.0 / 10',
     },
-    {
-      degree: 'Higher Secondary (Class XII)',
-      field: 'MPBSE Board',
-      institution: 'Govt.High School',
-      period: '2022',
-      score: '79%',
-      type: 'percentage' as const,
-    },
-    {
-      degree: 'Secondary (Class X)',
-      field: 'MPBSE Board',
-      institution: 'Govt.H.S School',
-      period: '2020',
-      score: '82%',
-      type: 'percentage' as const,
-    },
+    { degree: 'Class XII (MPBSE)', institution: 'MP Board', period: '2022', score: '79%' },
+    { degree: 'Class X (MPBSE)', institution: 'MP Board', period: '2020', score: '82%' },
+  ],
+
+  achievements: [
+    { title: 'Outstanding Performer', detail: 'ITSOFT LAB, for project contributions and delivery quality.' },
+    { title: 'Client Excellence Award', detail: 'For delivery of the Vendor Management System platform.' },
   ],
 }
 
