@@ -13,7 +13,7 @@ const description =
   'Junior Software Engineer in Indore building production, ERP-integrated web apps with React, TypeScript, Node.js, FastAPI and PostgreSQL.'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://siddhant-gupta.vercel.app'),
+  metadataBase: new URL('https://developer-portfolio-two-liart.vercel.app'),
   alternates: { canonical: '/' },
   title,
   description,
