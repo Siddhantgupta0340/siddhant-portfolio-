@@ -1,11 +1,12 @@
 'use client'
 
-import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion'
+import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, ArrowUpRight, MapPin } from 'lucide-react'
-import { useEffect, useState, type MouseEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { siteConfig } from '@/config/siteConfig'
 import { ResumeButton } from '@/components/resume-button'
 import { Counter, GithubIcon, LeetcodeIcon, LinkedinIcon, ease } from '@/components/primitives'
+import { Magnetic, Scramble, Tilt } from '@/components/effects'
 
 const codeLines: { indent: number; parts: [string, string][] }[] = [
   { indent: 0, parts: [['text-[#c792ea]', 'const '], ['text-white', 'siddhant'], ['text-muted-foreground', ' = {']] },
@@ -26,17 +27,17 @@ function RotatingRole() {
     return () => window.clearInterval(t)
   }, [])
   return (
-    <span className="relative inline-flex h-[1.4em] overflow-hidden align-bottom">
+    <span className="inline-block min-h-[1.6em]">
       <AnimatePresence mode="wait">
         <motion.span
           key={siteConfig.roles[i]}
-          initial={{ y: '100%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: '-100%', opacity: 0 }}
-          transition={{ duration: 0.45, ease }}
-          className="text-primary"
+          initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          exit={{ opacity: 0, y: -10, filter: 'blur(6px)' }}
+          transition={{ duration: 0.4, ease }}
+          className="inline-block text-primary"
         >
-          {siteConfig.roles[i]}
+          <Scramble text={siteConfig.roles[i]} />
         </motion.span>
       </AnimatePresence>
     </span>
@@ -52,8 +53,25 @@ function CodeWindow() {
       style={{ transformPerspective: 1200 }}
       className="relative w-full min-w-0"
     >
-      <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-primary/40 via-white/5 to-transparent" />
-      <div className="relative overflow-hidden rounded-2xl bg-[#0b0f14]/95 shadow-[0_30px_80px_-20px_rgba(52,211,153,0.25)] backdrop-blur">
+     <Tilt max={6} className="relative">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+        transition={{ opacity: { delay: 2.3 }, scale: { delay: 2.3, type: 'spring' }, y: { duration: 4, repeat: Infinity, ease: 'easeInOut' } }}
+        className="absolute -right-3 -top-5 z-20 hidden rounded-xl border border-white/10 bg-[#121921]/90 px-3 py-2 text-xs shadow-xl backdrop-blur sm:block"
+      >
+        <span className="text-muted-foreground">API performance</span> <span className="font-semibold text-primary">↑60%</span>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: 1, scale: 1, y: [0, 8, 0] }}
+        transition={{ opacity: { delay: 2.5 }, scale: { delay: 2.5, type: 'spring' }, y: { duration: 5, repeat: Infinity, ease: 'easeInOut' } }}
+        className="absolute -bottom-5 -left-4 z-20 hidden items-center gap-2 rounded-xl border border-white/10 bg-[#121921]/90 px-3 py-2 text-xs shadow-xl backdrop-blur sm:flex"
+      >
+        <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+        <span className="text-white">Shipping Wishvam</span>
+      </motion.div>
+      <div className="border-beam relative overflow-hidden rounded-2xl border border-white/10 bg-[#0e1319]/95 shadow-[0_40px_100px_-30px_rgba(62,224,165,0.35)] backdrop-blur">
         <div className="flex items-center gap-2 border-b border-white/[0.06] px-4 py-3">
           <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
@@ -84,39 +102,46 @@ function CodeWindow() {
           ))}
         </pre>
       </div>
+     </Tilt>
     </motion.div>
   )
 }
 
-export default function Hero() {
-  const mx = useMotionValue(-1000)
-  const my = useMotionValue(-1000)
-  const sx = useSpring(mx, { stiffness: 80, damping: 20 })
-  const sy = useSpring(my, { stiffness: 80, damping: 20 })
+const beams = [
+  { left: '12%', delay: 0, dur: 7 },
+  { left: '31%', delay: 2.5, dur: 9 },
+  { left: '56%', delay: 1.2, dur: 6.5 },
+  { left: '78%', delay: 3.8, dur: 8 },
+  { left: '92%', delay: 5, dur: 7.5 },
+]
 
-  const onMove = (e: MouseEvent<HTMLElement>) => {
-    const r = e.currentTarget.getBoundingClientRect()
-    mx.set(e.clientX - r.left - 300)
-    my.set(e.clientY - r.top - 300)
-  }
+export default function Hero() {
+  const ref = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  // Only the decorative code card drifts a little; text never fades so it always reads cleanly.
+  const cardY = useTransform(scrollYProgress, [0, 1], [0, -40])
 
   const nameWords = siteConfig.name.split(' ')
 
   return (
     <section
       id="top"
-      onMouseMove={onMove}
+      ref={ref}
       className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32 md:pt-36 lg:pb-36"
     >
       {/* Background layers */}
-      <div className="bg-dots mask-radial pointer-events-none absolute inset-0" />
-      <div className="pointer-events-none absolute left-1/2 top-[-20%] h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-primary/[0.09] blur-[120px]" />
-      <motion.div
-        style={{ x: sx, y: sy }}
-        className="pointer-events-none absolute left-0 top-0 hidden h-[600px] w-[600px] rounded-full bg-primary/[0.07] blur-[100px] md:block"
-      />
+      <div className="bg-grid mask-radial pointer-events-none absolute inset-0">
+        {beams.map((b) => (
+          <span
+            key={b.left}
+            className="beam hidden md:block"
+            style={{ left: b.left, animationDelay: `${b.delay}s`, animationDuration: `${b.dur}s` }}
+          />
+        ))}
+      </div>
+      <div className="pointer-events-none absolute left-1/2 top-[-25%] h-[620px] w-[1000px] -translate-x-1/2 rounded-full bg-primary/[0.1] blur-[130px]" />
 
-      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.15fr_1fr]">
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <motion.a
             href="#contact"
@@ -143,7 +168,7 @@ export default function Hero() {
                       initial={{ opacity: 0, y: '0.5em', filter: 'blur(8px)' }}
                       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                       transition={{ duration: 0.6, delay: 0.15 + (wi * 9 + ci) * 0.035, ease }}
-                      className={`inline-block ${wi === 1 ? 'text-white/40' : ''}`}
+                      className={`inline-block ${wi === 1 ? 'text-white/50' : ''}`}
                     >
                       {ch}
                     </motion.span>
@@ -179,6 +204,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.9, ease }}
             className="mt-9 flex flex-wrap items-center gap-3"
           >
+            <Magnetic>
             <a
               href="#projects"
               className="group inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 font-medium text-black transition-all hover:bg-primary active:scale-[0.97]"
@@ -186,7 +212,10 @@ export default function Hero() {
               View my work
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
-            <ResumeButton size="lg" variant="outline" label="Download Resume" />
+            </Magnetic>
+            <Magnetic>
+              <ResumeButton size="lg" variant="outline" label="Download Resume" />
+            </Magnetic>
           </motion.div>
 
           <motion.div
@@ -218,12 +247,14 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <CodeWindow />
+        <motion.div style={{ y: cardY }} className="min-w-0">
+          <CodeWindow />
+        </motion.div>
       </div>
 
       {/* Stats strip */}
       <div className="absolute inset-x-0 bottom-0 hidden lg:block">
-        <div className="mx-auto grid max-w-6xl grid-cols-4 gap-px px-8 pb-8">
+        <div className="mx-auto grid max-w-7xl grid-cols-4 gap-px px-8 pb-8">
           {siteConfig.stats.map((s, i) => (
             <motion.div
               key={s.label}

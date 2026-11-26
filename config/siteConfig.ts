@@ -18,7 +18,7 @@ export const siteConfig = {
 
   social: {
     github: 'https://github.com/Siddhantgupta0340',
-    linkedin: 'https://www.linkedin.com/in/siddhant-gupta-b7730930a',
+    linkedin: 'https://www.linkedin.com/in/siddhant-gupta-b7730930a/',
     leetcode: 'https://leetcode.com/u/Siddhant_Gupta0304',
   },
 
@@ -35,7 +35,7 @@ export const siteConfig = {
     { value: 60, suffix: '%', label: 'Faster APIs with Redis + BullMQ' },
     { value: 500, suffix: '+', label: 'Users served on PERN apps' },
     { value: 45, suffix: '%', label: 'Prisma query time cut' },
-    { value: 2, suffix: ' hrs', label: 'Manual reporting removed daily' },
+    { value: 5, suffix: '+', label: 'RBAC roles implemented' },
   ],
 
   experience: [
@@ -80,11 +80,11 @@ export const siteConfig = {
       description:
         'SAP-integrated platform giving a textile manufacturer real-time visibility into sales, stock, dispatch, purchase orders, costing and production.',
       points: [
-        'Removed about 2 hours of daily manual Excel reporting',
+        'Live dashboards for sales, stock, dispatch and production teams',
         'Team-wise sales reports, stock ageing analysis, global search sheets with export',
         'Task manager with email notifications',
       ],
-      metric: { value: '~2 hrs', label: 'saved every day' },
+      metric: { value: 'Live', label: 'SAP OData → dashboards' },
       tech: ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS', 'Recharts', 'FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Redis', 'Dagster', 'SAP OData', 'Docker', 'AWS ECS', 'GitHub Actions'],
       link: null as string | null,
       featured: true,

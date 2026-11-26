@@ -7,7 +7,7 @@ import { Reveal, SectionHeading, SpotlightCard } from '@/components/primitives'
 export default function Education() {
   const [degree, ...school] = siteConfig.education
   return (
-    <section id="education" className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 md:py-32">
+    <section id="education" className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
       <SectionHeading index="05" eyebrow="Education & awards" title="Foundations." />
 
       <div className="grid gap-4 md:grid-cols-3">

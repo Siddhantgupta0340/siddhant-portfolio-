@@ -7,45 +7,21 @@ import { Reveal, SectionHeading, SpotlightCard } from '@/components/primitives'
 
 const icons = [Code2, Layers, Server, Database, Cloud, Lightbulb]
 
-function Marquee({ items, reverse = false }: { items: string[]; reverse?: boolean }) {
-  return (
-    <div className="mask-x group flex overflow-hidden">
-      <div
-        className="flex shrink-0 animate-marquee gap-3 pr-3 group-hover:[animation-play-state:paused]"
-        style={{ animationDirection: reverse ? 'reverse' : 'normal' }}
-      >
-        {[...items, ...items].map((t, i) => (
-          <span
-            key={i}
-            className="whitespace-nowrap rounded-full border border-white/[0.08] bg-white/[0.02] px-5 py-2.5 font-mono text-sm text-white/70"
-          >
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export default function Skills() {
-  const half = Math.ceil(siteConfig.marquee.length / 2)
   return (
     <section id="skills" className="relative py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           index="04"
           eyebrow="Skills"
           title="The toolkit."
+          highlight={['toolkit']}
           sub="Everything here I've used in production code — frontend to database to deployment."
         />
       </div>
 
-      <div className="mb-14 space-y-3">
-        <Marquee items={siteConfig.marquee.slice(0, half)} />
-        <Marquee items={siteConfig.marquee.slice(half)} reverse />
-      </div>
 
-      <div className="mx-auto grid max-w-6xl gap-4 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
+      <div className="mx-auto grid max-w-7xl gap-4 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
         {siteConfig.skills.map((group, gi) => {
           const Icon = icons[gi % icons.length]
           return (

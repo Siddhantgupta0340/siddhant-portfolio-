@@ -39,20 +39,22 @@
   --animate-shine: shine 6s linear infinite;
 }
 
-/* Midnight + Emerald */
+/* Midnight + Emerald — layered dark surfaces (not pure black) for depth,
+   off-white text and AA+ contrast on every surface. */
 :root {
   color-scheme: dark;
-  --background: #07090c;
-  --foreground: #e6edf3;
-  --card: #0d1117;
-  --muted: #151b23;
-  --muted-foreground: #8b98a8;
-  --primary: #34d399;
-  --primary-foreground: #04120c;
-  --secondary: #151b23;
-  --accent: #6ee7b7;
-  --border: rgba(255, 255, 255, 0.08);
-  --glow: rgba(52, 211, 153, 0.35);
+  --background: #0a0e13;
+  --surface-1: #0f141a;
+  --foreground: #eef2f6;
+  --card: #121921;
+  --muted: #18202a;
+  --muted-foreground: #a3afbd;
+  --primary: #3ee0a5;
+  --primary-foreground: #03130d;
+  --secondary: #18202a;
+  --accent: #5eead4;
+  --border: rgba(255, 255, 255, 0.1);
+  --glow: rgba(62, 224, 165, 0.38);
 }
 
 @layer base {
@@ -61,7 +63,7 @@
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 0.5rem;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
@@ -125,7 +127,7 @@
   z-index: -1;
   opacity: 0;
   transition: opacity 0.3s;
-  background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgba(52, 211, 153, 0.12), transparent 45%);
+  background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgba(62, 224, 165, 0.1), transparent 45%);
 }
 .spotlight:hover::before { opacity: 1; }
 .spotlight::after {
@@ -137,12 +139,155 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s;
-  background: radial-gradient(300px circle at var(--x, 50%) var(--y, 50%), rgba(52, 211, 153, 0.7), transparent 45%);
+  background: radial-gradient(300px circle at var(--x, 50%) var(--y, 50%), rgba(62, 224, 165, 0.75), transparent 45%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
 .spotlight:hover::after { opacity: 1; }
+
+/* Fixed aurora behind the whole page */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--background);
+}
+.aurora span {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(110px);
+  opacity: 0.5;
+  will-change: transform;
+}
+.aurora span:nth-child(1) {
+  width: 46vw; height: 46vw; left: -12vw; top: -14vw;
+  background: radial-gradient(circle, rgba(62, 224, 165, 0.32), transparent 65%);
+  animation: drift-1 26s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(2) {
+  width: 40vw; height: 40vw; right: -10vw; top: 30vh;
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.22), transparent 65%);
+  animation: drift-2 32s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(3) {
+  width: 50vw; height: 50vw; left: 20vw; bottom: -30vw;
+  background: radial-gradient(circle, rgba(56, 120, 255, 0.14), transparent 65%);
+  animation: drift-3 38s ease-in-out infinite alternate;
+}
+@keyframes drift-1 { to { transform: translate(18vw, 14vh) scale(1.15); } }
+@keyframes drift-2 { to { transform: translate(-16vw, -10vh) scale(0.9); } }
+@keyframes drift-3 { to { transform: translate(-10vw, -18vh) scale(1.1); } }
+
+/* Page-wide slowly drifting grid */
+.grid-drift {
+  position: fixed;
+  inset: -80px;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 20%, transparent 80%);
+  animation: grid-move 24s linear infinite;
+}
+@keyframes grid-move {
+  to { transform: translate(80px, 80px); }
+}
+
+/* Rising glow particles */
+.particle {
+  position: fixed;
+  bottom: -20px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 9999px;
+  background: var(--primary);
+  box-shadow: 0 0 10px 2px rgba(62, 224, 165, 0.6);
+  animation: rise linear infinite;
+}
+@keyframes rise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translate(30px, -55vh); }
+  90% { opacity: 0.6; }
+  100% { transform: translate(-20px, -110vh); opacity: 0; }
+}
+
+/* Occasional shooting stars */
+.meteor {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  width: 140px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(94, 234, 212, 0.9), transparent);
+  transform: rotate(215deg);
+  opacity: 0;
+  animation: meteor linear infinite;
+}
+@keyframes meteor {
+  0% { opacity: 0; translate: 0 0; }
+  3% { opacity: 1; }
+  12% { opacity: 0; translate: -55vw 40vw; }
+  100% { opacity: 0; translate: -55vw 40vw; }
+}
+
+/* Faint grid lines with light beams travelling down them (hero) */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+.beam {
+  position: absolute;
+  top: -160px;
+  width: 1px;
+  height: 160px;
+  background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+  animation: beam-fall linear infinite;
+  opacity: 0.8;
+}
+@keyframes beam-fall {
+  to { transform: translateY(calc(100vh + 320px)); }
+}
+
+/* Animated conic border ("border beam") */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.border-beam {
+  position: relative;
+}
+.border-beam::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(from var(--angle), transparent 0deg, transparent 280deg, var(--primary) 320deg, #5eead4 340deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spin-angle 5s linear infinite;
+  z-index: 1;
+}
+@keyframes spin-angle {
+  to { --angle: 360deg; }
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
 @keyframes marquee {
   from { transform: translateX(0); }

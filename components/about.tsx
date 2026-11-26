@@ -4,20 +4,18 @@ import { motion } from 'framer-motion'
 import { Award, Briefcase, Code2, MapPin, Sparkles } from 'lucide-react'
 import { siteConfig } from '@/config/siteConfig'
 import { Counter, Reveal, SectionHeading, SpotlightCard } from '@/components/primitives'
+import { ScrollHighlight } from '@/components/effects'
 
 const coreStack = ['React', 'Next.js', 'TypeScript', 'Node.js', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'AWS']
 
 export default function About() {
   return (
-    <section id="about" className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 md:py-32">
+    <section id="about" className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
       <SectionHeading
         index="01"
         eyebrow="About"
-        title={
-          <>
-            Engineer who ships <span className="text-gradient">real products</span>, not just demos.
-          </>
-        }
+        title="Engineer who ships real products, not just demos."
+        highlight={['real', 'products']}
       />
 
       <div className="grid auto-rows-[minmax(0,auto)] grid-cols-1 gap-4 md:grid-cols-3">
@@ -28,7 +26,7 @@ export default function About() {
               <div className="mb-6 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <Sparkles className="h-5 w-5" />
               </div>
-              <p className="text-lg leading-relaxed text-white/90 md:text-xl">{siteConfig.summary}</p>
+              <ScrollHighlight text={siteConfig.summary} className="text-xl leading-relaxed text-white md:text-2xl md:leading-[1.5]" />
             </div>
             <div className="mt-8 grid grid-cols-2 gap-6 border-t border-white/[0.06] pt-7 sm:grid-cols-4">
               {siteConfig.stats.map((s) => (

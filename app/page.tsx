@@ -10,13 +10,22 @@ import Skills from '@/components/skills'
 import Education from '@/components/education'
 import Contact from '@/components/contact'
 import { Footer } from '@/components/footer'
+import { BackToTop, Backdrop, SmoothScroll, VelocityMarquee } from '@/components/effects'
 
 export default function Page() {
   return (
     <MotionConfig reducedMotion="user">
+      <SmoothScroll />
+      <Backdrop />
       <Navbar />
-      <main className="relative w-full overflow-hidden">
+      <main className="relative z-10 w-full overflow-x-clip">
         <Hero />
+        <VelocityMarquee
+          rows={[
+            ['React', 'Next.js', 'TypeScript', 'FastAPI', 'Node.js', 'PostgreSQL'],
+            ['Redis', 'Docker', 'AWS', 'Prisma', 'Hono', 'Tailwind CSS'],
+          ]}
+        />
         <About />
         <Experience />
         <Projects />
@@ -25,6 +34,7 @@ export default function Page() {
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
     </MotionConfig>
   )
 }

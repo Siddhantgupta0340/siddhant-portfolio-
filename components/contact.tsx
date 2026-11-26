@@ -5,6 +5,7 @@ import { useState, type FormEvent } from 'react'
 import { siteConfig } from '@/config/siteConfig'
 import { GithubIcon, LeetcodeIcon, LinkedinIcon, Reveal, SpotlightCard } from '@/components/primitives'
 import { ResumeButton } from '@/components/resume-button'
+import { Magnetic, SplitReveal } from '@/components/effects'
 
 export default function Contact() {
   const [copied, setCopied] = useState(false)
@@ -41,7 +42,7 @@ export default function Contact() {
       <div className="bg-dots mask-radial pointer-events-none absolute inset-0 opacity-60" />
       <div className="pointer-events-none absolute bottom-[-30%] left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-primary/[0.08] blur-[120px]" />
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <p className="mb-5 flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-primary">
             <span className="text-muted-foreground">06</span>
@@ -49,14 +50,15 @@ export default function Contact() {
             Contact
           </p>
         </Reveal>
-        <Reveal delay={0.05}>
-          <h2 className="mx-auto max-w-4xl text-center text-[clamp(2.25rem,6vw,4.5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white">
-            Let&apos;s build something <span className="text-gradient">great together.</span>
-          </h2>
-        </Reveal>
+        <SplitReveal
+          as="h2"
+          text="Let's build something great together."
+          highlight={['great', 'together']}
+          className="mx-auto block max-w-4xl text-center text-[clamp(2.25rem,6vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white"
+        />
         <Reveal delay={0.1}>
           <p className="mx-auto mt-5 max-w-xl text-center text-muted-foreground md:text-lg">
-            Hiring for a Software Engineer, Full Stack or Frontend role? I reply within a day. 30-day notice, open to relocate.
+            Open to Software Engineer, Full Stack and Frontend roles across India.
           </p>
         </Reveal>
 
@@ -71,7 +73,9 @@ export default function Contact() {
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </span>
             </button>
-            <ResumeButton size="lg" label="Resume" />
+            <Magnetic>
+              <ResumeButton size="lg" label="Resume" />
+            </Magnetic>
           </div>
         </Reveal>
 

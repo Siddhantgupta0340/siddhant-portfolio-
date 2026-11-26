@@ -3,8 +3,10 @@
 import { animate, motion, useInView, useMotionValue, useTransform } from 'framer-motion'
 import { useEffect, useRef, type ReactNode, type MouseEvent } from 'react'
 import { cn } from '@/lib/utils'
+import { SplitReveal } from '@/components/effects'
 
-export const ease = [0.22, 1, 0.36, 1] as const
+import { ease } from '@/lib/motion'
+export { ease }
 
 /** Fades + slides children in once they scroll into view. */
 export function Reveal({
@@ -31,19 +33,40 @@ export function Reveal({
   )
 }
 
-export function SectionHeading({ index, eyebrow, title, sub }: { index: string; eyebrow: string; title: ReactNode; sub?: string }) {
+export function SectionHeading({
+  index,
+  eyebrow,
+  title,
+  highlight = [],
+  sub,
+}: {
+  index: string
+  eyebrow: string
+  title: string
+  highlight?: string[]
+  sub?: string
+}) {
   return (
     <div className="mb-12 md:mb-16">
       <Reveal>
-        <p className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-primary">
-          <span className="text-muted-foreground">{index}</span>
-          <span className="h-px w-8 bg-primary/50" />
+        <p className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-primary">
+          <span className="rounded-md border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[11px] text-primary">{index}</span>
+          <motion.span
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease }}
+            className="h-px w-10 origin-left bg-primary/60"
+          />
           {eyebrow}
         </p>
       </Reveal>
-      <Reveal delay={0.05}>
-        <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">{title}</h2>
-      </Reveal>
+      <SplitReveal
+        as="h2"
+        text={title}
+        highlight={highlight}
+        className="max-w-3xl text-[clamp(2rem,4.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-white"
+      />
       {sub && (
         <Reveal delay={0.1}>
           <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">{sub}</p>
