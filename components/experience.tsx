@@ -1,198 +1,91 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import { Briefcase, ArrowUpRight } from 'lucide-react'
+import { motion, useScroll, useSpring } from 'framer-motion'
+import { useRef } from 'react'
 import { siteConfig } from '@/config/siteConfig'
-
-const smoothEase = [0.23, 1, 0.32, 1] as const
+import { Chip, Reveal, SectionHeading, SpotlightCard } from '@/components/primitives'
 
 export default function Experience() {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: smoothEase },
-    },
-  }
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 70%', 'end 60%'] })
+  const line = useSpring(scrollYProgress, { stiffness: 90, damping: 25 })
 
   return (
-    <section
-      ref={ref}
-      className="relative w-full py-24 px-4 sm:px-6 lg:px-8"
-    >
-      <div className="max-w-4xl mx-auto">
-        {/* Section Title */}
+    <section id="experience" className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+      <SectionHeading
+        index="02"
+        eyebrow="Experience"
+        title="Where I've been building."
+        sub="From PERN-stack client products to an enterprise SAP-integrated platform."
+      />
+
+      <div ref={ref} className="relative">
+        {/* Track + animated progress line */}
+        <div className="absolute bottom-0 left-[7px] top-2 w-px bg-white/[0.08] md:left-[calc(25%+7px)]" />
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16 text-center"
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 font-heading">
-            <span className="gradient-text">Professional Experience</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            My journey building enterprise applications
-          </p>
-        </motion.div>
+          style={{ scaleY: line }}
+          className="absolute bottom-0 left-[7px] top-2 w-px origin-top bg-gradient-to-b from-primary via-primary to-primary/0 md:left-[calc(25%+7px)]"
+        />
 
-        {/* Timeline */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="relative"
-        >
-          {/* Animated timeline line */}
-          <motion.div
-            className="absolute left-6 top-0 bottom-0 w-0.5"
-            initial={{ height: 0 }}
-            animate={inView ? { height: '100%' } : { height: 0 }}
-            transition={{ duration: 1.5, ease: 'easeOut' }}
-            style={{
-              background: 'linear-gradient(to bottom, var(--primary), var(--secondary), transparent)',
-            }}
-          />
-
-          {/* Intern phase */}
-          <motion.div variants={itemVariants} className="relative pl-16 pb-12">
-            {/* Timeline dot */}
-            <div className="absolute left-[14px] top-2">
-              <div className="timeline-dot" />
-            </div>
-
-            <div className="glass-effect rounded-2xl p-6 sm:p-8 border border-secondary/20 hover:border-secondary/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary/10">
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-lg font-bold text-secondary font-heading">Software Developer Intern</h3>
-                    <ArrowUpRight className="w-4 h-4 text-secondary" />
-                  </div>
-                  <p className="text-foreground font-semibold">ITSOFT LAB</p>
-                  <p className="text-muted-foreground text-sm">{siteConfig.experience[0].location}</p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-secondary/10 text-secondary border border-secondary/20">
-                    Feb 2026 – Apr 2026
-                  </span>
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent/10 text-accent border border-accent/20">
-                    Internship
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                Completed a rigorous 3-month internship building production features for enterprise clients.
-                Demonstrated strong performance leading to full-time SDE promotion.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Promotion arrow */}
-          <motion.div
-            variants={itemVariants}
-            className="relative pl-16 pb-4"
-          >
-            <div className="absolute left-[10px] top-0">
-              <motion.div
-                className="w-[22px] flex flex-col items-center"
-                animate={inView ? { opacity: [0.5, 1, 0.5] } : {}}
-                transition={{ duration: 2, repeat: Infinity }}
+        <div className="space-y-14">
+          {siteConfig.experience.map((job, i) => (
+            <div key={job.company} className="relative grid gap-4 pl-10 md:grid-cols-4 md:gap-10 md:pl-0">
+              {/* Dot */}
+              <motion.span
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+                className="absolute left-0 top-2 grid h-[15px] w-[15px] place-items-center rounded-full border border-primary/60 bg-background md:left-[25%]"
               >
-                <div className="w-0.5 h-4 bg-gradient-to-b from-secondary to-primary" />
-                <div className="w-3 h-3 border-l-2 border-b-2 border-primary transform rotate-[-45deg] -mt-1" />
-              </motion.div>
-            </div>
-            <div className="ml-2">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border border-primary/30">
-                🚀 Promoted based on performance & impact
-              </span>
-            </div>
-          </motion.div>
+                <span className={`h-[7px] w-[7px] rounded-full bg-primary ${job.current ? 'animate-pulse' : ''}`} />
+              </motion.span>
 
-          {/* SDE phase */}
-          {siteConfig.experience.map((experience, index) => (
-            <motion.div key={index} variants={itemVariants} className="relative pl-16 pb-8">
-              {/* Timeline dot */}
-              <div className="absolute left-[14px] top-2">
-                <div className="timeline-dot" />
-              </div>
+              <Reveal className="md:pr-10 md:text-right">
+                <p className="font-mono text-sm text-primary">{job.duration}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {job.type} · {job.location}
+                </p>
+              </Reveal>
 
-              <div className="glass-effect rounded-2xl p-6 sm:p-8 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-                  <div>
-                    <div className="flex items-center gap-3 mb-1">
-                      <div className="p-2 rounded-lg bg-primary/20">
-                        <Briefcase className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-primary font-heading">
-                          {experience.role}
-                        </h3>
-                        <p className="text-secondary font-semibold">
-                          {experience.company}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-muted-foreground text-sm ml-12">
-                      {experience.location}
-                    </p>
+              <Reveal delay={0.1} className="md:col-span-3 md:pl-10">
+                <SpotlightCard className="p-6 md:p-8">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="text-xl font-semibold text-white md:text-2xl">{job.role}</h3>
+                    {job.current && (
+                      <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">Current</span>
+                    )}
                   </div>
-                  <div className="flex flex-wrap gap-2 ml-12 sm:ml-0">
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
-                      {experience.duration}
-                    </span>
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-500/10 text-green-400 border border-green-500/20">
-                      {experience.type}
-                    </span>
+                  <p className="mt-1 text-muted-foreground">{job.company}</p>
+
+                  <ul className="mt-6 space-y-3">
+                    {job.highlights.map((h, hi) => (
+                      <motion.li
+                        key={hi}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.15 + hi * 0.06, duration: 0.5 }}
+                        className="flex gap-3 text-[15px] leading-relaxed text-white/75"
+                      >
+                        <span className="mt-[9px] h-1 w-3 shrink-0 rounded-full bg-primary/70" />
+                        {h}
+                      </motion.li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {job.tech.map((t) => (
+                      <Chip key={t}>{t}</Chip>
+                    ))}
                   </div>
-                </div>
-
-                {/* Divider */}
-                <div className="w-full h-px bg-gradient-to-r from-primary/0 via-primary/30 to-primary/0 my-5" />
-
-                {/* Highlights */}
-                <div className="space-y-3">
-                  {experience.highlights.map((highlight, highlightIndex) => (
-                    <motion.div
-                      key={highlightIndex}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={inView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ delay: 0.6 + highlightIndex * 0.1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <span className="inline-block w-1.5 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full mt-2 flex-shrink-0" />
-                      <p className="text-muted-foreground leading-relaxed text-sm">
-                        {highlight}
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+                </SpotlightCard>
+              </Reveal>
+              {i < siteConfig.experience.length - 1 && <span className="sr-only">then</span>}
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
-
-      {/* Section divider */}
-      <div className="section-divider mt-24 max-w-4xl mx-auto" />
     </section>
   )
 }

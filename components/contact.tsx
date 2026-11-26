@@ -1,192 +1,140 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import { Mail, Phone, MapPin, Code2, Share2 } from 'lucide-react'
-import { ContactForm } from './contact-form'
+import { ArrowUpRight, Check, Copy, Mail, Phone, Send } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
 import { siteConfig } from '@/config/siteConfig'
+import { GithubIcon, LeetcodeIcon, LinkedinIcon, Reveal, SpotlightCard } from '@/components/primitives'
+import { ResumeButton } from '@/components/resume-button'
+import { Magnetic, SplitReveal } from '@/components/effects'
 
 export default function Contact() {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
+  const [copied, setCopied] = useState(false)
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: siteConfig.email,
-      href: `mailto:${siteConfig.email}`,
-      color: 'primary',
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: siteConfig.phone,
-      href: `tel:${siteConfig.phone.replace(/[^+\d]/g, '')}`,
-      color: 'secondary',
-    },
-    {
-      icon: MapPin,
-      label: 'Location',
-      value: siteConfig.location,
-      href: '#',
-      color: 'accent',
-    },
-  ]
-
-  const socialLinks = [
-    {
-      icon: Code2,
-      label: 'GitHub',
-      href: siteConfig.social.github,
-      color: 'hover:text-foreground hover:border-foreground/30',
-    },
-    {
-      icon: Share2,
-      label: 'LinkedIn',
-      href: siteConfig.social.linkedin,
-      color: 'hover:text-[#0A66C2] hover:border-[#0A66C2]/30',
-    },
-  ]
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(siteConfig.email)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2000)
+    } catch {
+      window.location.href = `mailto:${siteConfig.email}`
+    }
   }
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] as const },
-    },
+  // Opens the visitor's own mail app with the message pre-filled (no backend needed).
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget)
+    const name = String(data.get('name') || '')
+    const message = String(data.get('message') || '')
+    const subject = encodeURIComponent(`Opportunity for Siddhant — from ${name}`)
+    const body = encodeURIComponent(`${message}\n\n— ${name}`)
+    window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`
   }
+
+  const socials = [
+    { href: siteConfig.social.linkedin, label: 'LinkedIn', Icon: LinkedinIcon },
+    { href: siteConfig.social.github, label: 'GitHub', Icon: GithubIcon },
+    { href: siteConfig.social.leetcode, label: 'LeetCode', Icon: LeetcodeIcon },
+  ]
 
   return (
-    <section
-      ref={ref}
-      className="relative w-full py-24 px-4 sm:px-6 lg:px-8"
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Section Title */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16 text-center"
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 font-heading">
-            <span className="gradient-text">Get In Touch</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Let&apos;s discuss your next project or opportunity
+    <section id="contact" className="relative overflow-hidden py-24 md:py-36">
+      <div className="bg-dots mask-radial pointer-events-none absolute inset-0 opacity-60" />
+      <div className="pointer-events-none absolute bottom-[-30%] left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-primary/[0.08] blur-[120px]" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <Reveal>
+          <p className="mb-5 flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-primary">
+            <span className="text-muted-foreground">06</span>
+            <span className="h-px w-8 bg-primary/50" />
+            Contact
           </p>
+        </Reveal>
+        <SplitReveal
+          as="h2"
+          text="Let's build something great together."
+          highlight={['great', 'together']}
+          className="mx-auto block max-w-4xl text-center text-[clamp(2.25rem,6vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white"
+        />
+        <Reveal delay={0.1}>
+          <p className="mx-auto mt-5 max-w-xl text-center text-muted-foreground md:text-lg">
+            Open to Software Engineer, Full Stack and Frontend roles across India.
+          </p>
+        </Reveal>
 
-          {/* Availability badge */}
-          <motion.div
-            className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-effect text-sm font-medium"
-            animate={{
-              boxShadow: [
-                '0 0 15px rgba(34,197,94,0.1)',
-                '0 0 25px rgba(34,197,94,0.2)',
-                '0 0 15px rgba(34,197,94,0.1)',
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-green-400">Currently available for new opportunities</span>
-          </motion.div>
-        </motion.div>
-
-        {/* Contact Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
-          >
-            <h3 className="text-2xl font-bold mb-8 font-heading">Contact Information</h3>
-
-            {/* Contact Details */}
-            <div className="space-y-4 mb-10">
-              {contactInfo.map((info, index) => {
-                const Icon = info.icon
-                return (
-                  <motion.a
-                    key={index}
-                    href={info.href}
-                    variants={itemVariants}
-                    whileHover={{ x: 8, scale: 1.02 }}
-                    className="glass-effect rounded-xl p-4 flex items-center gap-4 hover:border-primary/30 transition-all duration-300 group"
-                  >
-                    <div className={`p-3 rounded-xl bg-${info.color}/15 group-hover:bg-${info.color}/25 transition-colors duration-300 flex-shrink-0`}>
-                      <Icon className={`w-5 h-5 text-${info.color}`} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground text-sm mb-0.5">
-                        {info.label}
-                      </h4>
-                      <p className="text-muted-foreground text-sm">
-                        {info.value}
-                      </p>
-                    </div>
-                  </motion.a>
-                )
-              })}
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h4 className="text-lg font-bold mb-4 font-heading">Connect With Me</h4>
-              <div className="flex gap-3">
-                {socialLinks.map((link, index) => {
-                  const Icon = link.icon
-                  return (
-                    <motion.a
-                      key={index}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={itemVariants}
-                      whileHover={{ scale: 1.1, y: -4, rotate: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`p-4 glass-effect rounded-xl border border-white/10 text-muted-foreground transition-all duration-300 ${link.color}`}
-                      aria-label={link.label}
-                    >
-                      <Icon className="w-6 h-6" />
-                    </motion.a>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Quick response note */}
-            <motion.div
-              variants={itemVariants}
-              className="mt-8 p-4 rounded-xl glass-effect border border-primary/10"
+        <Reveal delay={0.15}>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={copyEmail}
+              className="group inline-flex h-12 items-center gap-3 rounded-full border border-white/15 bg-white/[0.03] pl-5 pr-2 font-mono text-sm text-white transition-colors hover:border-primary/50"
             >
-              <p className="text-sm text-muted-foreground">
-                💬 <span className="text-primary font-medium">Quick Response</span> — I typically respond within 24 hours. Feel free to reach out!
-              </p>
-            </motion.div>
-          </motion.div>
+              {siteConfig.email}
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-primary-foreground">
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              </span>
+            </button>
+            <Magnetic>
+              <ResumeButton size="lg" label="Resume" />
+            </Magnetic>
+          </div>
+        </Reveal>
 
-          {/* Contact Form */}
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
-          >
-            <ContactForm />
-          </motion.div>
+        <div className="mx-auto mt-16 grid max-w-5xl gap-4 md:grid-cols-5">
+          <Reveal className="md:col-span-3">
+            <SpotlightCard className="p-6 md:p-8">
+              <form onSubmit={onSubmit} className="space-y-4">
+                <p className="font-semibold text-white">Send a quick message</p>
+                <input
+                  name="name"
+                  required
+                  placeholder="Your name / company"
+                  className="h-12 w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 text-white outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60"
+                />
+                <textarea
+                  name="message"
+                  required
+                  rows={4}
+                  placeholder="Tell me about the role or project…"
+                  className="w-full resize-none rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60"
+                />
+                <button
+                  type="submit"
+                  className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white font-medium text-black transition-colors hover:bg-primary"
+                >
+                  Open in email
+                  <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </button>
+              </form>
+            </SpotlightCard>
+          </Reveal>
+
+          <div className="grid gap-4 md:col-span-2">
+            <Reveal delay={0.08}>
+              <SpotlightCard className="p-6">
+                <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-3 text-white/90 hover:text-primary">
+                  <Mail className="h-5 w-5 text-primary" /> Email me
+                </a>
+                <a
+                  href={`tel:${siteConfig.phone.replace(/[^+\d]/g, '')}`}
+                  className="mt-4 flex items-center gap-3 text-white/90 hover:text-primary"
+                >
+                  <Phone className="h-5 w-5 text-primary" /> {siteConfig.phone}
+                </a>
+              </SpotlightCard>
+            </Reveal>
+            {socials.map(({ href, label, Icon }, i) => (
+              <Reveal key={label} delay={0.12 + i * 0.05}>
+                <a href={href} target="_blank" rel="noreferrer" className="block">
+                  <SpotlightCard className="group flex items-center justify-between p-5">
+                    <span className="flex items-center gap-3 text-white/90">
+                      <Icon className="h-5 w-5" /> {label}
+                    </span>
+                    <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                  </SpotlightCard>
+                </a>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
