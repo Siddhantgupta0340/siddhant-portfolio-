@@ -13,7 +13,8 @@ const description =
   'Junior Software Engineer in Indore building production, ERP-integrated web apps with React, TypeScript, Node.js, FastAPI and PostgreSQL.'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://developer-portfolio-two-liart.vercel.app'),
+  metadataBase: new URL('https://siddhant-gupta.vercel.app'),
+  alternates: { canonical: '/' },
   title,
   description,
   keywords: [
@@ -32,20 +33,14 @@ export const metadata: Metadata = {
   creator: 'Siddhant Gupta',
   openGraph: { type: 'website', locale: 'en_IN', title, description, siteName: 'Siddhant Gupta' },
   twitter: { card: 'summary_large_image', title, description },
-  icons: {
-    icon: [
-      { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon-dark-32x32.png', media: '(prefers-color-scheme: dark)' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-icon.png',
-  },
+  // Favicon, app icons and the social preview image come from app/favicon.ico,
+  // app/icon.png, app/apple-icon.png and app/opengraph-image.png (scripts/make-icons.py).
   robots: { index: true, follow: true },
 }
 
 export const viewport: Viewport = {
   colorScheme: 'dark',
-  themeColor: '#07090c',
+  themeColor: '#0a0e13',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
